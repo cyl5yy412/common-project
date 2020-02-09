@@ -11,7 +11,6 @@ public class CommonProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(CommonProjectApplication.class, args);
-
         //java 8 打印
         Consumer consumer = System.out::println;
         consumer.accept("hello---");

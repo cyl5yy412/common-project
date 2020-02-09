@@ -125,9 +125,9 @@ public class FileUtil {
     /**
      * 下载
      *
-     * @param path
-     * @param fileNewName
-     * @param fileOldName
+     * @param path 路径
+     * @param fileNewName 上传时自定义name,有后缀名
+     * @param fileOldName 用户上传时的文件名字,有后缀名
      * @param res
      * @return
      * @throws UnsupportedEncodingException
