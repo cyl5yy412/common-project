@@ -18,6 +18,34 @@ import java.util.Date;
 public class FileUtil {
 
     /**
+     * 展示图片
+     *
+     * @param path 图片路径
+     */
+    public static void showImg(String path, HttpServletResponse response) {
+
+        File file = new File(path);
+        try (InputStream inputStream = new FileInputStream(file);
+             OutputStream outputStream = response.getOutputStream()
+        ) {
+            if (file.exists()) {
+
+                byte[] bytes = new byte[inputStream.available()];
+                int length = 0;
+                while ((length = inputStream.read(bytes)) != -1) {
+                    System.out.println("length in ::" + length);
+                    //写出客户端
+                    outputStream.write(bytes, 0, length);
+                }
+                System.out.println("length::" + length);
+                outputStream.flush();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 单个文件上传:原文件名上传
      *
      * @param file 前端的file
@@ -52,8 +80,9 @@ public class FileUtil {
     /**
      * 单个文件上传:日期文件夹/原文件名上传
      *
-     * @param file 前端的file
-     * @param path 存储本地的path
+     * @param file     前端的file
+     * @param path     存储本地的path
+     * @param fileName 传入的文件名字
      * @return
      */
     public static boolean upLoadFileByDate(MultipartFile file, String path, String fileName) {
@@ -162,7 +191,7 @@ public class FileUtil {
     /**
      * 删除文件
      *
-     * @param f 文件所在的目录
+     * @param f        文件所在的目录
      * @param fileName 需要删除的文件名
      * @return
      */
