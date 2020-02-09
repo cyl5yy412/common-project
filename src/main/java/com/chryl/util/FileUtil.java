@@ -35,7 +35,7 @@ public class FileUtil {
                 int length = 0;
                 while ((length = inputStream.read(bytes)) != -1) {
                     System.out.println("length in ::" + length);
-                    //写出客户端
+                    //写出客户端:展示直接写出到客户端,不需要以附件的方式
                     outputStream.write(bytes, 0, length);
                 }
                 System.out.println("length::" + length);
@@ -126,7 +126,7 @@ public class FileUtil {
     /**
      * 下载
      *
-     * @param path 路径
+     * @param path        路径
      * @param fileNewName 上传时自定义name,有后缀名
      * @param fileOldName 用户上传时的文件名字,有后缀名
      * @param res
@@ -149,11 +149,29 @@ public class FileUtil {
 //        res.setContentType("application/application/octet-stream");
         //.*（ 二进制流，不知道下载文件类型）
 //        res.setContentType("application/multipart/form-data");
+        //下载只是以附件的方式传递到客户端
         res.addHeader("Content-Disposition", //
                 "attachment;fileName=" +
                         new String(fileNewName.getBytes("utf-8"), "iso8859-1"));// 设置文件名
         //判断文件是否存在
         File file = new File(Paths.get(path, fileNewName).toString());
+
+        if (file.exists()) {
+            try (
+                    InputStream iss = new FileInputStream(file);
+                    OutputStream oss = res.getOutputStream()//可输出字符和字节
+            ) {
+                int length;
+//                byte[] data = new byte[1024 << 3];
+                byte[] data = new byte[iss.available()];
+                while ((length = iss.read(data)) != -1) {
+                    oss.write(data, 0, length);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        /*
         if (file.exists()) {
             byte[] buffer = new byte[1024];
             FileInputStream fis = null;
@@ -186,7 +204,9 @@ public class FileUtil {
                     }
                 }
             }
-        }
+        }*/
+        //
+
         return true;
     }
 
