@@ -65,7 +65,7 @@ public class ChrylController {
 
     //下载
     @GetMapping("/download/{fileName}")
-    public void download(@PathVariable String fileName, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void download(@PathVariable String fileName, HttpServletResponse response) throws IOException {
 
         boolean b = FileUtil.downloadFile(uploadPath, fileName, "", response);
     }

@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -132,7 +133,7 @@ public class FileUtil {
      * @return
      * @throws UnsupportedEncodingException
      */
-    public static boolean downloadFile(String path, String fileNewName, String fileOldName, HttpServletResponse res) throws UnsupportedEncodingException {
+    public static boolean downloadFile(String path, String fileNewName, String fileOldName, HttpServletResponse res) throws IOException {
         if (fileNewName == null) {
             return false;
         }
@@ -140,8 +141,10 @@ public class FileUtil {
         //查看文件信息,存储路径
         res.setContentType("application/force-download");// 设置强制下载不打开
         res.setHeader("Context-Type", "application/xmsdownload");
+        //4.告诉浏览器不要打开文件，直接下载，原因是IE6会直接打开文件，所以这个算是特意为IE6设置的
+//        res.setContentType("application/x-msdownload");
 
-        //无弹窗
+        //无弹窗,直接下载
 //        res.setContentType("application/x-download");
 //        res.setContentType("application/application/octet-stream");
         //.*（ 二进制流，不知道下载文件类型）
