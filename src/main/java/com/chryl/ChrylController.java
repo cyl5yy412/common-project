@@ -179,4 +179,32 @@ public class ChrylController {
             FileUtil.deleteFile(file, fileName);
         }
     }
+
+    //    测试展示和下载
+    @GetMapping("/show/img")
+    public void showImgcyl(HttpServletResponse response) throws UnsupportedEncodingException {
+        //fileName 带有后缀
+        String fileName = "13881201370310319.jpg";
+        String path = uploadPath + "13881201370310319.jpg";
+
+        response.reset(); // 非常重要
+        //下载以福建的形式传递到客户端
+        response.addHeader("Content-Disposition", //
+                "attachment;fileName=" +
+                        new String(fileName.getBytes("utf-8"), "iso8859-1"));// 设置文件名
+        File file = new File(path);
+        try (
+                InputStream inputStream = new FileInputStream(file);
+                OutputStream outputStream = response.getOutputStream();
+        ) {
+
+            byte[] data = new byte[inputStream.available()];
+            inputStream.read(data);
+            outputStream.write(data);
+            outputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
