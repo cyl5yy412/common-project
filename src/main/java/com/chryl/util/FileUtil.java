@@ -1,6 +1,7 @@
 package com.chryl.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -50,7 +52,7 @@ public class FileUtil {
      * 单个文件上传:原文件名上传
      *
      * @param file 前端的file
-     * @param path 存储本地的path
+     * @param path 存储本地的path    /Chryl
      * @return
      */
     public static boolean upLoadFile(MultipartFile file, String path, String fileName) {
@@ -82,7 +84,7 @@ public class FileUtil {
      * 单个文件上传:日期文件夹/原文件名上传
      *
      * @param file     前端的file
-     * @param path     存储本地的path
+     * @param path     存储本地的path /Chryl/
      * @param fileName 传入的文件名字
      * @return
      */
@@ -134,7 +136,7 @@ public class FileUtil {
      * @throws UnsupportedEncodingException
      */
     public static boolean downloadFile(String path, String fileNewName, String fileOldName, HttpServletResponse res) throws IOException {
-        if (fileNewName == null) {
+        if (StringUtils.isBlank(fileNewName)) {
             return false;
         }
         //通过文件名查找文件信息fileInfo=selectByFileName(fileName);
@@ -248,5 +250,14 @@ public class FileUtil {
 //        File file = new File("D:/upload");  //  "D:/upload"  Users是路径名
 //        delete(file, "java.txt");
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String ymd = sdf.format(new Date());
+        System.out.println(ymd);
+        LocalDate localDate = LocalDate.now();
+        System.out.println(localDate);
+
+        String savePath = "/chryl/";
+        savePath += ymd + "/";
+        System.out.println(savePath);
     }
 }
