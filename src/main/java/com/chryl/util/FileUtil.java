@@ -6,7 +6,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -19,6 +18,9 @@ import java.util.Date;
  */
 @Slf4j
 public class FileUtil {
+
+    // 允许上传的格式
+    private static final String[] IMAGE_TYPE = new String[]{".bmp", ".jpg", ".jpeg", ".gif", ".png"};
 
     /**
      * 展示图片
@@ -56,6 +58,7 @@ public class FileUtil {
      * @return
      */
     public static boolean upLoadFile(MultipartFile file, String path, String fileName) {
+
         if (file.isEmpty()) {
             return false;
         }
@@ -250,14 +253,40 @@ public class FileUtil {
 //        File file = new File("D:/upload");  //  "D:/upload"  Users是路径名
 //        delete(file, "java.txt");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String ymd = sdf.format(new Date());
-        System.out.println(ymd);
-        LocalDate localDate = LocalDate.now();
-        System.out.println(localDate);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+//        String ymd = sdf.format(new Date());
+//        System.out.println(ymd);
+//        LocalDate localDate = LocalDate.now();
+//        System.out.println(localDate);
+//
+//        String savePath = "/chryl/";
+//        savePath += ymd + "/";
+//        System.out.println(savePath);
 
-        String savePath = "/chryl/";
-        savePath += ymd + "/";
-        System.out.println(savePath);
+
+        passType(null);
+    }
+
+
+    //判断文件类型是否允许
+    public static void passType(MultipartFile file) {
+        //设置 上传允许的格式
+        String originalFilename = file.getOriginalFilename();
+        String suffix = StringUtils.substringAfterLast(originalFilename, ".");
+        if (StringUtils.equalsAnyIgnoreCase(suffix, "bmp", "jpg", "jpeg", "gif", "png")) {
+
+        }
+
+        boolean isLegal = false;
+        String filename = file.getOriginalFilename();
+        for (String type : IMAGE_TYPE) {
+            if (StringUtils.endsWithIgnoreCase(filename, type)) {
+                isLegal = true;
+                break;
+            }
+        }
+        if (isLegal) {
+
+        }
     }
 }
