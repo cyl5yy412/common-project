@@ -1,0 +1,8 @@
+server:
+  port: 80
+#log
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB # \u6700\u592710M
+      max-request-size: 10MB
