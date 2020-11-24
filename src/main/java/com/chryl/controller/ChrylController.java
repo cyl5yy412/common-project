@@ -1,4 +1,4 @@
-package com.chryl;
+package com.chryl.controller;
 
 import com.chryl.util.FileUtil;
 import com.chryl.util.PrimaryKeyFactory;
